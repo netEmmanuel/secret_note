@@ -1,6 +1,6 @@
-# crud-news-app
+# note keeping-app
 
-a [Sails v1](https://sailsjs.com) application
+A [Sails v1](https://sailsjs.com) application
 
 
 ### Links
