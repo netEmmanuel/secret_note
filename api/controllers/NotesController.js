@@ -1,22 +1,26 @@
-//dummy db
-const notes1 = { id: 1, title: "note 1", body: "here is the body" };
-const notes2 = { id: 2, title: "note 2", body: "here is the body 1" };
-const notes3 = { id: 3, title: "note 3", body: "here is the body 3" };
-
-const allNotes = [notes1, notes2, notes3];
-
 module.exports = {
-  create: (req, res) => {
-    const title = req.param("title");
-    const body = req.body("body");
-    const newNotes = { id: 4, title: "note 4", body: "here is the body 4" };
-    allNotes.push(newNotes);
-    res.send("success");
+  create: async (req, res) => {
+    const title = req.body.title;
+    const body = req.body.text;
+
+    try {
+      const note = await Note.create({ title: title, body: body });
+      res.send(note);
+    } catch (e) {
+      res.serverError(e.toString());
+    }
   },
-  notes: (req, res) => {
-    res.send(allNotes);
+
+  notes: async res => {
+    try {
+      const notes = await Note.find();
+      res.send(notes);
+    } catch (e) {
+      res.serverError(e.toString());
+    }
   },
-  getNoteById: (req, res) => {
+
+  findNoteById: (req, res) => {
     const noteId = Number(req.param("Id"));
     const filteredNotes = allNotes.filter(note => note.id === noteId);
 
@@ -25,5 +29,11 @@ module.exports = {
     } else {
       res.send(`Failed to find note with ${req.param("Id")}`);
     }
+  },
+
+  delete: async (req, res) => {
+    const noteId = Number(req.param("Id"));
+    await Note.destroy({ id: noteId });
+    res.send("Note Deleted");
   }
 };
