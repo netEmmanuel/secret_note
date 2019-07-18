@@ -1,33 +1,23 @@
 module.exports = {
   create: async (req, res) => {
     const title = req.body.title;
-    const body = req.body.text;
+    const body = req.body.body;
 
     try {
       const note = await Note.create({ title: title, body: body });
       res.send(note);
-    } catch (e) {
-      res.serverError(e.toString());
+      res.redirect("/home");
+    } catch (err) {
+      res.serverError(err.toString());
     }
   },
 
-  notes: async res => {
+  notes: async (req, res) => {
     try {
       const notes = await Note.find();
       res.send(notes);
-    } catch (e) {
-      res.serverError(e.toString());
-    }
-  },
-
-  findNoteById: (req, res) => {
-    const noteId = Number(req.param("Id"));
-    const filteredNotes = allNotes.filter(note => note.id === noteId);
-
-    if (filteredNotes.length > 0) {
-      res.send(filteredNotes[0]);
-    } else {
-      res.send(`Failed to find note with ${req.param("Id")}`);
+    } catch (err) {
+      res.serverError(err.toString());
     }
   },
 
