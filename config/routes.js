@@ -20,9 +20,9 @@ module.exports.routes = {
 
   "GET /": { view: "pages/homepage" },
 
-  "GET /notes": "NotesController.notes",
-  "POST /notes/create": "NotesController.create",
-  "DELETE /notes/:Id": "NotesController.delete",
+  "GET /notes": "note/retrieve",
+  "POST /notes/create": "note/create",
+  "DELETE /notes/:Id": "note/delete",
 
   "GET /home": "note/home"
 
